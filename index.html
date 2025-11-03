@@ -65,7 +65,25 @@
         document.body.appendChild(p);
     </script-->
 
+    <!-- ============= Google Translate widget ============= -->
+    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <script type="text/javascript">
+        ///網址處理
+
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({
+            pageLanguage: 'en',            // 你的原始頁面語言 (可改為 'zh-TW'、'auto' 等)
+            autoDisplay: false,
+            layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+            // includedLanguages: 'zh-TW,zh-CN,en,ja,ko' // 可限制顯示的語言列表 (選用)
+            }, 'google_translate_element');
+        }
+    </script>
+    <!-- ================================================== -->
+
     <script>
+        ///網址處理
+
         // 1. Get URL parameters
         const urlParams = new URLSearchParams(window.location.search);
 
@@ -117,22 +135,10 @@
         }
     </script>
 
-    <!-- ============= Google Translate widget ============= -->
-    <script type="text/javascript">
-      function googleTranslateElementInit() {
-        new google.translate.TranslateElement({
-          pageLanguage: 'en',            // 你的原始頁面語言 (可改為 'zh-TW'、'auto' 等)
-          autoDisplay: false,
-          layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-          // includedLanguages: 'zh-TW,zh-CN,en,ja,ko' // 可限制顯示的語言列表 (選用)
-        }, 'google_translate_element');
-      }
-    </script>
-    <!-- 請使用 HTTPS 來源 (或 protocol relative) -->
-    <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-    <!-- ================================================== -->
-
+    <!-- ============= copy and enter ===================== -->
     <script>
+        ///複製與回車
+
         const input = document.getElementById("emailInput");
         const copyButton = document.getElementById("copyButton");
         ///const result = document.getElementById("result");
@@ -161,5 +167,7 @@
         // 按下 Copy 按鈕
         copyButton.addEventListener("click", updateAndCopy);
     </script>
+    <!-- ================================================== -->
+
 </body>
 </html>
