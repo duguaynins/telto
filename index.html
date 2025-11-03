@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head translate="yes">
@@ -9,7 +10,20 @@
     <title>nins/telto</title>
     <!-- 可選：簡單 CSS 調整翻譯小工具外觀（可自訂） -->
     <style>
-        
+        input, button {
+            border: 2px solid #4CAF50; /* 綠色邊框 */
+            border-radius: 6px;        /* 圓角 */
+            padding: 8px 12px;
+            margin: 2px 0;
+            outline: none;              /* 移除預設外框 */
+        }
+
+        /* 聚焦時（使用者點入）變色 */
+        input:focus, button:focus {
+            border-color: red;      /* 聚焦時變藍色 */
+        }
+    </style>
+    <style>
         html, body {
             height: 100%;
             margin: 0;
@@ -42,16 +56,16 @@
 <body>
 
     <h1 translate="no">© 2024 NINS. 👻</h1>
-    <!--h1 translate="no">© 2024 NINS <span style="color: red;">(by JPGT)</span>. 👻✨</h1-->
+    <!--h1 translate="no">© 2024 NINS <span translate="no" style="color: red;">(by JPGT)</span>. 👻✨</h1-->
 
     <!--h1>Preparing your information...</h1-->
-    <p id="system">📌 If you really need a shorter information redirect link, We welcome you to contact us (duguaynins@gmail.com).</p>
-    <p id="nanoURL" translate="no">💡 ...!</p>
+    <p id="system">📌 If you really need a shorter information redirect link, We welcome you to contact us. <a translate="no">(mailto:<a style='color:red;' href='mailto:duguaynins@gmail.com'>duguaynins@gmail.com</a> 📧)</a></p>
+    <!--p id="nanoURL" translate="no">💡 ...!</p-->
     <p id="hintURL">✨ ...!</p>
     <p id="miniURL" translate="no">💡 ...!</p>
     <!--p id="message">💬 ...!</p-->
     <p id="message" style="color: #999999;">💬 ...!</p>
-    <h1 style="color: red;">(by JPGT)</h1>
+    <h1 translate="no" style="color: red;">(by JPGT)</h1>
     
     <!-- 翻譯小工具容器（放在頁面任意地方） -->
     <div id="google_translate_wrapper">
@@ -59,15 +73,39 @@
     </div>
     <!-- ================================================== -->
     
-    <!--script>
-        // Try to read the parent page’s referrer
-        console.log("Parent page info:", document.referrer);
     
-        // Also display it on the page for easier observation
-        const ref = document.referrer || "Unable to retrieve (possibly restricted by browser or settings)";
-        const p = document.createElement("p");
-        p.textContent = "Parent page referrer: " + ref;
-        document.body.appendChild(p);
+    <script>
+        function checkUriData(uriData) {
+            let redirect = null;
+
+            if (uriData === null) {
+                console.log('✅');
+                redirect = null;
+            } else if (uriData === '') {
+                console.log('✅');
+                redirect = null;
+            } else if (uriData.startsWith('mailto:')) {
+                console.log('✅ mailto');
+                redirect = true;
+            } else if (uriData.startsWith('tel:')) {
+                console.log('✅ tel');
+                redirect = true;
+            } else if (uriData.startsWith('sms:')) {
+                console.log('✅ sms');
+                redirect = true;
+            } else {
+                console.log('🟥 mailto 🟥 tel 🟥 sms');
+                redirect = false;
+            }
+
+            return redirect;
+        }
+    </script>
+    <!-- ================================================== -->
+
+    <!--script>
+    const tips = ["姓名", "Email", "電話", "留言"], i = document.querySelector('#myInput');
+    setInterval((n => i.placeholder = "請輸入" + tips[n % tips.length]), 1000, 0);
     </script-->
     <!-- ================================================== -->
 
@@ -88,6 +126,7 @@
 
     <script>
         ///網址處理***
+        let redirect = false;
 
         // 1. Get URL parameters
         const urlParams = new URLSearchParams(window.location.search);
@@ -102,16 +141,16 @@
                        || urlParams.get('go')
                        || urlParams.get('to');*/
         
+        //redirect = checkUriData(recipient);
+        redirect = true;
+
         // Read 'subject' and 'body' parameters
         const subject = urlParams.get('subject');
         const body = urlParams.get('body');
-        document.getElementById("nanoURL").innerHTML = "💡 （example →）<a style='text-decoration:none; color:black;' href='https://nins.telto.world' target='_blank' rel='noopener noreferrer'>https://<u style='color:red;'>nins</u>.telto.world</a>";
-        
-        
-        
-        ///document.getElementById("nanoURL").innerHTML = "💡 （example →）<u style='text-decoration:none; color:black;'>https://<a style='color:red;' href='https://nins.telto.world' target='_blank' rel='noopener noreferrer'>nins</a>.telto.world</u>";
-        document.getElementById("miniURL").innerHTML = "💡 （example →）<u style='text-decoration:none; color:black;'>https://duguaynins.github.io/telto/?who=<input style='color:red;' type='tel' id='informationInput' placeholder='input your tel number' value='+886909095800'> <button id='copyButton'>Copy URL</button></u>";  ///telto/index.html
+        ///document.getElementById("nanoURL").innerHTML = "💡 （example →）<a style='text-decoration:none; color:black;' href='https://nins.telto.world' target='_blank' rel='noopener noreferrer'>https://<u style='color:red;'>nins</u>.telto.world</a>";
+        document.getElementById("miniURL").innerHTML = "💡 <u style='text-decoration:none; color:black;'>https://duguaynins.github.io/telto/?who=<input style='color:red;' type='text' id='informationInput' placeholder='' value='' size='35'> <button id='copyButton'>Copy URL 🔗</button></u>";  ///telto/index.html
         document.getElementById("hintURL").innerHTML = '✨ Simply enter your information after "who=" to get your "free HTTPS URL" for your information.';
+        
         if (recipient) {
             // 3. Build the telto link
             let teltoUrl = `tel:${recipient}`;
@@ -133,7 +172,9 @@
 
             // 4. Redirect to telto link
             // This triggers the telto protocol
-            window.location.href = teltoUrl;
+            if (redirect) {
+                window.location.href = teltoUrl;
+            }
             /*
             try {
                 window.open(teltoUrl);
@@ -146,10 +187,15 @@
             // Show message to user
             ///document.getElementById('message').innerText = `The information will be sent to: ${recipient}. Please make sure your information client is open.`;
             ///document.getElementById('message').innerHTML = `📧 The recipient information will be pre-filled. If it fails, the redirect will not occur. In that case, please use this information to contact (${recipient}).`;
-            document.getElementById('message').innerHTML = `🌐 Fallback redirect is active and the page is locked. The page can be visited at <a href='https://telto.world' translate="no">https://telto.world</a>.`;
+            if (recipient === null) { console.log('✅'); }
+            else { document.getElementById('message').innerHTML = `✅ Fallback redirect is active and the page is locked. The page can be visited at <a href='https://duguaynins.github.io/telto/?who=' translate="no">https://telto.work</a> 🌐.`; }
+            
+            if (!redirect) { document.getElementById('message').innerHTML = '⚠️ This is not mailto/tel/sms.'; }
         } else {
             // Missing required recipient parameter
-            document.getElementById('message').innerHTML = '⚠️ Missing recipient information in the URL parameter (?who=...).';
+            if (recipient === null) { console.log('✅'); }
+            else { document.getElementById('message').innerHTML = '⚠️ Missing recipient information in the URL parameter (?who=...).'; }
+            
         }
     </script>
     <!-- ================================================== -->
@@ -162,22 +208,32 @@
         ///const result = document.getElementById("result");
 
         function updateAndCopy() {
-        const information = document.getElementById("informationInput").value.trim();
-        ///if (!information) return;
-        if (!information) {
-            copyButton.textContent = "⬅️ Missing 🔗";
-            setTimeout(() => (copyButton.textContent = "Copy URL"), 2000);
-            return;
-        }
+            const information = document.getElementById("informationInput").value.trim();
+            ///if (!information) return;
+            if (!information) {
+                copyButton.textContent = "⬅️ Missing 🔗";
+                setTimeout(() => (copyButton.textContent = "Copy URL 🔗"), 2000);
+                return;
+            }
+            /*
+            let redirect = checkUriData(information);
+            ///if (!redirect) { document.getElementById('message').innerHTML = '⚠️ This is not a valid protocol <a translate="yes">(mailto:/tel:/sms:)<a>.'; }
+            if (!redirect) { document.getElementById('message').innerHTML = '⚠️ You need to use a valid protocol. <a translate="no">(mailto:/tel:/sms:)<a>'; }
+            if (!redirect) {
+                copyButton.textContent = "⬅️ ERROR 🔗";
+                setTimeout(() => (copyButton.textContent = "Copy URL 🔗"), 2000);
+                return;
+            }*/
 
-        const url = `https://duguaynins.github.io/telto/?who=${encodeURIComponent(information)}`;
-        document.getElementById('message').innerHTML = `✅ <a href='${url}'>${url}</a>`;
-        ///result.textContent = url;
+            const url = `https://duguaynins.github.io/telto/?who=${encodeURIComponent(information)}`;
+            document.getElementById('message').innerHTML = `✅ <a href='${url}'>${url}</a> 🌐`;
+            ///result.textContent = url;
 
-        navigator.clipboard.writeText(url).then(() => {
-            copyButton.textContent = "✅ Copied 🔗";
-            setTimeout(() => (copyButton.textContent = "Copy URL"), 2000);
-        });
+            navigator.clipboard.writeText(url).then(() => {
+                copyButton.textContent = "✅ Copied 🔗";
+                setTimeout(() => (copyButton.textContent = "Copy URL 🔗"), 2000);
+                document.getElementById("informationInput").value = "";
+            });
         }
 
         // 按下 Enter 觸發複製
@@ -190,6 +246,26 @@
 
         // 按下 Copy 按鈕
         copyButton.addEventListener("click", updateAndCopy);
+    </script>
+    <!-- ================================================== -->
+
+    <script>
+        // 循環提示***
+
+        // 提示文字清單
+        const placeholders = [
+            "+886-123456789,0000",
+            "+886-909095800",
+        ];
+
+        let index = 0;
+        const input = document.getElementById("informationInput");
+
+        // 每 1 秒變更一次 placeholder
+        setInterval(() => {
+            input.placeholder = placeholders[index];
+            index = (index + 1) % placeholders.length; // 循環切換
+        }, 1000);
     </script>
     <!-- ================================================== -->
 
