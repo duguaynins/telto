@@ -154,12 +154,12 @@
     <script>
         ///複製與回車***
 
-        const input = document.getElementById("informationInput");
+        ///const input = document.getElementById("informationInput");
         const copyButton = document.getElementById("copyButton");
         ///const result = document.getElementById("result");
 
         function updateAndCopy() {
-        const information = input.value.trim();
+        const information = document.getElementById("informationInput").value.trim();
         ///if (!information) return;
         if (!information) {
             copyButton.textContent = "⬅️ Missing 🔗";
@@ -178,7 +178,7 @@
         }
 
         // 按下 Enter 觸發複製
-        input.addEventListener("keydown", (e) => {
+        document.getElementById("informationInput").addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
             e.preventDefault();
             updateAndCopy();
