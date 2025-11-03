@@ -132,18 +132,20 @@
 
             // 4. Redirect to telto link
             // This triggers the telto protocol
-            ///window.location.href = teltoUrl;
+            window.location.href = teltoUrl;
+            /*
             try {
                 window.open(teltoUrl);
             } catch (err) {
                 console.warn("Tel redirect blocked:", err);
                 window.location.href = teltoUrl;
                 document.getElementById('message').innerHTML = `⚠️ Fallback redirect is active and the page is locked. The page can be visited at https://telto.world`;
-            }
+            }*/
 
             // Show message to user
             ///document.getElementById('message').innerText = `The information will be sent to: ${recipient}. Please make sure your information client is open.`;
-            document.getElementById('message').innerHTML = `📧 The recipient information will be pre-filled. If it fails, the redirect will not occur. In that case, please use this information to contact (${recipient}).`;
+            ///document.getElementById('message').innerHTML = `📧 The recipient information will be pre-filled. If it fails, the redirect will not occur. In that case, please use this information to contact (${recipient}).`;
+            document.getElementById('message').innerHTML = `🌐 Fallback redirect is active and the page is locked. The page can be visited at <a href='https://telto.world'>https://telto.world</a>`;
         } else {
             // Missing required recipient parameter
             document.getElementById('message').innerHTML = '⚠️ Missing recipient information in the URL parameter (?who=...).';
