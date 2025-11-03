@@ -145,7 +145,7 @@
             // Show message to user
             ///document.getElementById('message').innerText = `The information will be sent to: ${recipient}. Please make sure your information client is open.`;
             ///document.getElementById('message').innerHTML = `📧 The recipient information will be pre-filled. If it fails, the redirect will not occur. In that case, please use this information to contact (${recipient}).`;
-            document.getElementById('message').innerHTML = `🌐 Fallback redirect is active and the page is locked. The page can be visited at <a href='https://telto.world'>https://telto.world</a>`;
+            document.getElementById('message').innerHTML = `🌐 Fallback redirect is active and the page is locked. The page can be visited at <a href='https://telto.world' translate="no">https://telto.world</a>.`;
         } else {
             // Missing required recipient parameter
             document.getElementById('message').innerHTML = '⚠️ Missing recipient information in the URL parameter (?who=...).';
