@@ -84,45 +84,6 @@
         }
     </script>
     <!-- ================================================== -->
-    
-    <script>
-        ///複製與回車***
-
-        const input = document.getElementById("informationInput");
-        const copyButton = document.getElementById("copyButton");
-        ///const result = document.getElementById("result");
-
-        function updateAndCopy() {
-        const information = input.value.trim();
-        ///if (!information) return;
-        if (!information) {
-            copyButton.textContent = "⬅️ Missing 🔗";
-            setTimeout(() => (copyButton.textContent = "Copy URL"), 2000);
-            return;
-        }
-
-        const url = `https://duguaynins.github.io/telto/?who=${encodeURIComponent(information)}`;
-        document.getElementById('message').innerHTML = `✅ <a href='${url}'>${url}</a>`;
-        ///result.textContent = url;
-
-        navigator.clipboard.writeText(url).then(() => {
-            copyButton.textContent = "✅ Copied 🔗";
-            setTimeout(() => (copyButton.textContent = "Copy URL"), 2000);
-        });
-        }
-
-        // 按下 Enter 觸發複製
-        input.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            updateAndCopy();
-        }
-        });
-
-        // 按下 Copy 按鈕
-        copyButton.addEventListener("click", updateAndCopy);
-    </script>
-    <!-- ================================================== -->
 
     <script>
         ///網址處理***
@@ -171,7 +132,14 @@
 
             // 4. Redirect to telto link
             // This triggers the telto protocol
-            window.location.href = teltoUrl;
+            ///window.location.href = teltoUrl;
+            try {
+                window.open(teltoUrl);
+            } catch (err) {
+                console.warn("Tel redirect blocked:", err);
+                window.location.href = teltoUrl;
+                document.getElementById('message').innerHTML = `⚠️ Fallback redirect is active and the page is locked. The page can be visited at https://telto.world`;
+            }
 
             // Show message to user
             ///document.getElementById('message').innerText = `The information will be sent to: ${recipient}. Please make sure your information client is open.`;
@@ -180,6 +148,45 @@
             // Missing required recipient parameter
             document.getElementById('message').innerHTML = '⚠️ Missing recipient information in the URL parameter (?who=...).';
         }
+    </script>
+    <!-- ================================================== -->
+    
+    <script>
+        ///複製與回車***
+
+        const input = document.getElementById("informationInput");
+        const copyButton = document.getElementById("copyButton");
+        ///const result = document.getElementById("result");
+
+        function updateAndCopy() {
+        const information = input.value.trim();
+        ///if (!information) return;
+        if (!information) {
+            copyButton.textContent = "⬅️ Missing 🔗";
+            setTimeout(() => (copyButton.textContent = "Copy URL"), 2000);
+            return;
+        }
+
+        const url = `https://duguaynins.github.io/telto/?who=${encodeURIComponent(information)}`;
+        document.getElementById('message').innerHTML = `✅ <a href='${url}'>${url}</a>`;
+        ///result.textContent = url;
+
+        navigator.clipboard.writeText(url).then(() => {
+            copyButton.textContent = "✅ Copied 🔗";
+            setTimeout(() => (copyButton.textContent = "Copy URL"), 2000);
+        });
+        }
+
+        // 按下 Enter 觸發複製
+        input.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            updateAndCopy();
+        }
+        });
+
+        // 按下 Copy 按鈕
+        copyButton.addEventListener("click", updateAndCopy);
     </script>
     <!-- ================================================== -->
 
