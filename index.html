@@ -354,7 +354,7 @@
         const subject = urlParams.get('subject');
         const body = urlParams.get('body');
         ///document.getElementById("nanoURL").innerHTML = "💡 （example →）<a style='text-decoration:none; color:black;' href='https://nins.telto.world' target='_blank' rel='noopener noreferrer'>https://<u style='color:red;'>nins</u>.telto.world</a>";
-        document.getElementById("miniURL").innerHTML = "💡 <u style='text-decoration:none; color:black;'>https://duguaynins.github.io/telto/?who=<input style='color:red;' type='text' id='informationInput' placeholder='' value='' size='35'> <button id='copyButton'>Copy URL 🔗</button></u>";  ///telto/index.html
+        document.getElementById("miniURL").innerHTML = "💡 <u style='text-decoration:none; color:black;'>https://telto.nins.cc?who=<input style='color:red;' type='text' id='informationInput' placeholder='' value='' size='35'> <button id='copyButton'>Copy URL 🔗</button></u>";  ///telto/index.html
         ///document.getElementById("hintURL").innerHTML = '✨ Simply enter your information after "who=" to get your "free HTTPS URL" for your information.';
         
         if (recipient) {
@@ -394,7 +394,7 @@
             ///document.getElementById('message').innerText = `The information will be sent to: ${recipient}. Please make sure your information client is open.`;
             ///document.getElementById('message').innerHTML = `📧 The recipient information will be pre-filled. If it fails, the redirect will not occur. In that case, please use this information to contact (${recipient}).`;
             if (recipient === null) { console.log('✅'); }
-            else { document.getElementById('message').innerHTML = `✅ Fallback redirect is active and the page is locked. The page can be visited at <a href='https://duguaynins.github.io/telto/?who=' translate="no">https://telto.work</a> 🌐.`; }
+            else { document.getElementById('message').innerHTML = `✅ Fallback redirect is active and the page is locked. The page can be visited at <a href='https://telto.nins.cc?who=' translate="no">https://telto.work</a> 🌐.`; }
             
             if (!redirect) { document.getElementById('message').innerHTML = '⚠️ This is not mailto/tel/sms.'; }
         } else {
@@ -431,7 +431,7 @@
                 return;
             }*/
 
-            const url = `https://duguaynins.github.io/telto/?who=${encodeURIComponent(information)}`;
+            const url = `https://telto.nins.cc?who=${encodeURIComponent(information)}`;
             document.getElementById('message').innerHTML = `✅ <a href='${url}'>${url}</a> 🌐`;
             ///result.textContent = url;
 
